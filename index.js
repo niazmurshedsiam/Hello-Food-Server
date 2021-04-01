@@ -20,6 +20,16 @@ client.connect(err => {
   const ProductsCollection = client.db("freshValley").collection("products");
   console.log('Database connection successfully');
 //   client.close();
+app.get('/products',(req,res)=>{
+  ProductsCollection.find()
+  .toArray((err,items)=>{
+    res.send(items);
+    console.log('From database',items);
+  })
+  
+})
+
+
 app.post('/addProduct',(req,res)=>{
   const newProduct = req.body;
   console.log('adding new event: ',newProduct);
