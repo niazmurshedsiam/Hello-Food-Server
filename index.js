@@ -17,9 +17,18 @@ console.log(uri);
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
     console.log('connection err', err);
-  const Productscollection = client.db("FreshValley").collection("products");
+  const ProductsCollection = client.db("freshValley").collection("products");
   console.log('Database connection successfully');
 //   client.close();
+app.post('/addProduct',(req,res)=>{
+  const newProduct = req.body;
+  console.log('adding new event: ',newProduct);
+  ProductsCollection.insertOne(newProduct)
+  .then(result=>{
+    console.log('Inserted Count',result.insertedCount);
+    res.send(result.insertedCount > 0)
+  })
+})
 });
 
 app.listen(port, () => {
